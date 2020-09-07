@@ -160,14 +160,19 @@ void std_vector_erase(StdVector vector, size_t position) {
 }
 
 void std_vector_erase_range(StdVector vector, size_t first, size_t last) {
-    if (vector == NULL || vector->size == 0 || first >= vector->size) return;
-    if (last < vector->size - 1) {
-        size_t position = first * vector->value_size;
-        size_t rest_position_start = last + 1 * vector->value_size;
-        size_t rest_size = (vector->size - 1 - last) * vector->value_size;
-        memcpy(vector->data + position, vector->data + rest_position_start, rest_size);
+    if (vector == NULL || vector->size == 0 || first >= vector->size || first > last) return;
+    if (last >= vector->size - 1) {
+        vector->size = first;
+    } else {
+        size_t index = first * vector->value_size;
+        size_t rest_start = (last + 1) * vector->value_size;
+        size_t rest_end = vector->size * vector->value_size;
+        size_t rest_size = rest_end - rest_start;
+        if (rest_size > 0) {
+            memcpy(vector->data + index, vector->data + rest_start, rest_size);
+        }
+        vector->size -= last - first + 1;
     }
-    vector->size -= last - first;
 }
 
 void std_vector_push_back(StdVector vector, void *value) {
@@ -205,7 +210,7 @@ void std_vector_resize(StdVector vector, size_t size) {
     vector->size = size;
 }
 
-void std_vector_swap(StdVector* vector_a_ptr, StdVector* vector_b_ptr) {
+void std_vector_swap(StdVector *vector_a_ptr, StdVector *vector_b_ptr) {
     if (vector_a_ptr == NULL || vector_b_ptr == NULL) return;
     StdVector vector_tmp_ptr = *vector_a_ptr;
     *vector_a_ptr = *vector_b_ptr;

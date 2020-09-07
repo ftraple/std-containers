@@ -13,7 +13,7 @@ set(SOURCE_FILES
     unit/data-test.cpp
     unit/emplace-back-test.cpp
     unit/empty-test.cpp
-    unit/erase-test.cpp
+    unit/erase-range-test.cpp
     unit/erase-test.cpp
     unit/front-test.cpp
     unit/insert-test.cpp
