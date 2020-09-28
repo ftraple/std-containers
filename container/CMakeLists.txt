@@ -1,6 +1,7 @@
 include(GNUInstallDirs)
 
 set(SOURCE_FILES 
+    source/list.c
     source/vector.c
 )
 
